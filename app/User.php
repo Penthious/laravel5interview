@@ -16,10 +16,9 @@ class User extends Authenticatable
     public static $rules = [
         'name'     => 'required|max:100',
         'email'    => 'required|max:100',
-        'password' => 'required'
     ];
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role',
     ];
 
 	protected $table = 'users';

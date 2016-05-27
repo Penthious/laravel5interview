@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
 use Closure;
 
 class UserAccount
@@ -15,10 +16,12 @@ class UserAccount
      */
     public function handle($request, Closure $next)
     {
-        $user = $request->id;
-        dd($user);
-        if (Auth::user()->id != $user) {
-            return redirect()->action('/');
+
+        	if (Auth::check() && Auth::user()->role != 'Admin') {
+        		$user = $request->segment(2);
+        		if (Auth::user()->id != $user) {
+        			return redirect()->action('HomeController@index');
+        		}
         }
         return $next($request);
     }

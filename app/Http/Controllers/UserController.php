@@ -12,13 +12,28 @@ use Auth;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('account');
+    }
+
     public function index(Request $request)
     {
+        $tableHead = [
+            'User',
+            'Email',
+            'Role',
+            'Edit account',
+            'Delete account'
+        ];
+
         return view('users.index', [
-            'users' =>User::all()
+            'users' => User::all(),
+            'tableHead' => $tableHead
         ]);
     }
-    public function show($id)
+
+    public function show(Request $request, $id)
     {
         $user = $this->userIsNull($id);
         return view('users.account', [
@@ -31,12 +46,12 @@ class UserController extends Controller
 		$user = $this->userIsNull($id);
 		return view('users.edit',[
 			'user' => User::find($id),
-			'edit' => true
 		]);
 	}
 
     public function update(Request $request, $id)
     {
+
         $user = $this->userIsNull($id);
 		return $this->validation($user, $request);
     }
@@ -45,9 +60,33 @@ class UserController extends Controller
     {
         $user = $this->userIsnull($id);
         $user->delete();
-    
+        Auth::logout();
 
         return redirect()->action('HomeController@index');
+    }
+
+    public function adminDestroyer(Request $request, $id)
+    {
+        $user = $this->userIsnull($id);
+        $user->delete();
+
+        return back();
+    }
+
+    public function editPassword(Request $request, $id)
+    {
+        $user = $this->userIsNull($id);
+		return view('users.changePassword',[
+			'user' => User::find($id),
+		]);
+    }
+
+    public function storePassword(Request $request, $id)
+    {
+        $user = $this->userIsNull($id);
+        $user->password = $request->get('password');
+        $user->save();
+        return redirect()->action('UserController@show', $id);
     }
 
     public function validation($user, $request)

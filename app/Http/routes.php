@@ -11,12 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::auth();
 
-Route::get('/home', 'HomeController@index');
-Route::resource('user', 'UserController');
-Route::get('/user', 'UserController@index')->middleware('admin');
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+    Route::resource('user', 'UserController');
+    Route::delete('/user/{id}', 'UserController@adminDestroyer');
+    Route::get('/user/{id}/passwordchange', 'UserController@editPassword');
+    Route::put('/user/{id}/passwordchange', 'UserController@storePassword');
+    Route::get('/user', 'UserController@index')->middleware('admin');

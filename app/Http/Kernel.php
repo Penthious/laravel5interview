@@ -49,7 +49,7 @@ class Kernel extends HttpKernel
         'can'          => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest'        => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'     => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'user.accaunt' => \App\Http\Middleware\UserAccount::class,
+        'account' => \App\Http\Middleware\UserAccount::class,
         'admin'        => \App\Http\Middleware\MustBeAdmin::class,
     ];
 }
