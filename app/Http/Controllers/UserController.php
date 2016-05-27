@@ -12,6 +12,12 @@ use Auth;
 
 class UserController extends Controller
 {
+    public function index(Request $request)
+    {
+        return view('users.index', [
+            'users' =>User::all()
+        ]);
+    }
     public function show($id)
     {
         $user = $this->userIsNull($id);
@@ -39,7 +45,7 @@ class UserController extends Controller
     {
         $user = $this->userIsnull($id);
         $user->delete();
-        Auth::logout();
+    
 
         return redirect()->action('HomeController@index');
     }

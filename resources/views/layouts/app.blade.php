@@ -67,6 +67,9 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                                 <li><a href="{{{ action('UserController@show' , Auth::user()->id) }}}">Account</a></li>
+                                @if (Auth::user()->role == 'Admin')
+                                    <li><a href="{{{ action('UserController@index') }}}">All</a></li>
+                                @endif
                             </ul>
                         </li>
                     @endif

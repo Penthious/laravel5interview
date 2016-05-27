@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class UserAccount
+class MustBeAdmin
 {
     /**
      * Handle an incoming request.
@@ -15,11 +15,11 @@ class UserAccount
      */
     public function handle($request, Closure $next)
     {
-        $user = $request->id;
-        dd($user);
-        if (Auth::user()->id != $user) {
-            return redirect()->action('/');
+        $user = $request->user();
+
+        if ($user && $user->role =='Admin') {
+            return $next($request);
         }
-        return $next($request);
+        return redirect()->action('HomeController@index');
     }
 }

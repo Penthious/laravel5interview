@@ -19,3 +19,4 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::resource('user', 'UserController');
+Route::get('/user', 'UserController@index')->middleware('admin');

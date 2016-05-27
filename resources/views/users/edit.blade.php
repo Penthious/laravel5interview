@@ -15,10 +15,19 @@
             {{ $errors->first('email', '<span class="help-block errorsColor">:message</span>') }}
         @endif
 
-        {{ Form::label('password', 'Password') }}
-        {{ Form::text('password', null, [ 'class'=>"form-control", 'rows'=>"5", 'password'])}}
-        @if ($errors->has('password'))
-            {{ $errors->first('password', '<span class="help-block errorsColor">:message</span>') }}
+        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+            {!! Form::label('password', 'Password') !!}
+            {!! Form::password('password', ['class' => 'form-control', 'required' => 'required']) !!}
+            <small class="text-danger">{{ $errors->first('password') }}</small>
+        </div>
+
+        @if ($user->role == 'Admin')
+
+            <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+                {!! Form::label('role', 'Input label') !!}
+                {!! Form::select('role', ['Admin','user'], 'user', ['class' => 'form-control', 'required' => 'required', 'multiple']) !!}
+                <small class="text-danger">{{ $errors->first('role') }}</small>
+            </div>
         @endif
 
         <button type="submit" name="button">Save</button>
