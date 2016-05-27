@@ -17,6 +17,10 @@ class UserController extends Controller
         $this->middleware('account');
     }
 
+    public function create(){
+        return view('users.create');
+    }
+
     public function index(Request $request)
     {
         $tableHead = [
@@ -86,20 +90,28 @@ class UserController extends Controller
         $user = $this->userIsNull($id);
         $user->password = $request->get('password');
         $user->save();
+        $request->session()->flash('successMessage', 'Your password was successfully update.');
+
         return redirect()->action('UserController@show', $id);
     }
 
     public function validation($user, $request)
 	{
 		$validator = Validator::make($request->all(), User::$rules);
-
 		// attempt validation
 		if ($validator->fails()) {
 			$request->session()->flash('errorMessage', 'Unable to save user.');
 			return back()->withInput()->withErrors($validator);
 		} else {
 			$request->session()->flash('successMessage', 'The user was successfully update.');
-			$user->create($request->all());
+            if ($request->role) {
+                $user->role = $request->get('role');
+            }elseif ($request->password) {
+                $user->password = $request->get('password');
+            }
+            $user->name = $request->get('name');
+			$user->email = $request->get('email');
+			$user->save();
 			return redirect()->action('UserController@edit',$user->id);
 		}
 	}

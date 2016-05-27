@@ -44,7 +44,7 @@
             </td>
             <td>
                 {!! Form::open(['method' => 'DELETE', 'action' => ['UserController@adminDestroyer', $user->id], 'class' => 'form-horizontal']) !!}
-                {{ Form::submit('Delete', ['class' => "btn btn-danger btn-sm"])}}
+                {{ Form::submit('Delete', ['class' => "btn btn-danger btn-sm delete"])}}
                 {!! Form::close() !!}
 
             </td>
@@ -62,6 +62,7 @@
 @section('js')
 
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="/js/accountDelete.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
