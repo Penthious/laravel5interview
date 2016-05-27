@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Hash;
 
 class User extends Authenticatable
 {
@@ -11,9 +12,17 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    public static $rules = [
+        'name'     => 'required|max:100',
+        'email'    => 'required|max:100',
+        'password' => 'required'
+    ];
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
+	protected $table = 'users';
 
     /**
      * The attributes that should be hidden for arrays.
@@ -23,4 +32,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 }
